@@ -1,0 +1,24 @@
+{
+  "name": "ip1projek1",
+  "version": "1.0.0",
+  "description": "Internetprogrammierung Projekt",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tomtom1011/IP1Projekt.git"
+  },
+  "keywords": [
+    "IP1"
+  ],
+  "author": "Tom Lux, Julian Teschner, Fabian Milla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tomtom1011/IP1Projekt/issues"
+  },
+  "homepage": "https://github.com/Tomtom1011/IP1Projekt#readme"
+}
