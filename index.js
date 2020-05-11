@@ -15,8 +15,12 @@ app.get('/', (req, res) => {
     res.render('pages/index');
 });
 
+app.get('/profil', function (req, res) {
+    res.render('pages/profil');
+});
+
 const server = app.listen(port, () => {
- console.log(`Server listening on port ${port}…`)
+    console.log(`Server listening on port ${port}…`)
 });
 
 module.exports = server
