@@ -25,36 +25,38 @@ async function getData() {
 
     const json = await response.json();
     json.forEach(element => {
-        tableBody.prepend(`
-            <div class="row justify-content-center">
-                <div class="col-1">
-                </div>
-                <div class="col-10">
-                    <div class="profile-entry">
-                        <table>
-                            <tr>
-                                <td>
-                                    <p><b>${element.Username}:<b></p>
-                                </td>
-                                <td class="table-data-right">
-                                    <p>${element.Timestamp}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <p>${element.Message}</p>
-                                </td>
-                            </tr>
-                            <tr>
-                                <!-- TODO: add comment function -->
-                            </tr>
-                        </table>
+        if (element.Username==getCookie("username")) {
+            tableBody.prepend(`
+                <div class="row justify-content-center">
+                    <div class="col-1">
                     </div>
-                </div>
-                <div class="col-1">
-                </div>
-            </div> 
-        `);
+                    <div class="col-10">
+                        <div class="profile-entry">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p><b>${element.Username}:<b></p>
+                                    </td>
+                                    <td class="table-data-right">
+                                        <p>${element.Timestamp}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <p>${element.Message}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <!-- TODO: add comment function -->
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-1">
+                    </div>
+                </div> 
+            `);
+        }
     });
 }
 
@@ -65,8 +67,7 @@ async function savePost(message) {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date+' '+time;
 
-    // TODO: need to use current username instead of static name
-    var username = "TestUser";
+    var username = getCookie("username");
 
     await fetch('/api/posts', {
         method: "post",
@@ -81,3 +82,19 @@ async function savePost(message) {
     });
 
 }
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
