@@ -40,22 +40,22 @@ app.post('/api/user', (req, res) => {
     if (req.body.username && req.body.password) {
         db.run('INSERT INTO User(Username, Password) VALUES(?, ?)', [req.body.username, req.body.password], function (err) {
             if (err) {
-                console.log("DB Insert User Error values (" + req.body.username + ","  + req.body.password + ")");
+                console.log("DB Insert User Error values (" + req.body.username + "," + req.body.password + ")");
             } else {
                 console.log("Created user " + req.body.username);
             }
         })
     } else {
-        res.json({error: "Request createUser: body is not correct"});
-    } 
+        res.json({ error: "Request createUser: body is not correct" });
+    }
 })
 
 app.post('/api/posts', (req, res) => {
     db.run('INSERT INTO Posts(Username, Message, Timestamp) VALUES(?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime], function (err) {
         if (err) {
-            console.log("DB Insert Posts Error values (" + 
-                req.body.username + "," + 
-                req.body.message + "," + 
+            console.log("DB Insert Posts Error values (" +
+                req.body.username + "," +
+                req.body.message + "," +
                 req.body.dateTime + ")");
         } else {
             console.log("Created post");

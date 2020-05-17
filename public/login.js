@@ -1,9 +1,11 @@
-$( document ).ready((() => {
+$(document).ready((() => {
 
     const btnLogin = $('#btn-login');
     const btnSignUp = $('#btn-sign-up');
     const tfdUsername = $('#tfd-username');
     const tfdPassword = $('#tfd-password');
+    const forgot = $('#forgotButton');
+
 
     btnLogin.on('click', async function (event) {
         event.preventDefault();
@@ -16,13 +18,18 @@ $( document ).ready((() => {
         var password = tfdPassword.val();
         saveUser(username, password);
     });
+
+    forgot.on('click', (event) => {
+        event.preventDefault();
+        toggleForgotBox(true);
+    })
 }));
 
 async function saveUser(username, password) {
     await fetch('/api/user', {
         method: "post",
         headers: {
-        "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             username,
@@ -38,15 +45,15 @@ async function login(username, password) {
     const response = await fetch('/api/user', {
         method: "get",
         headers: {
-        "Content-Type": "application/json",
+            "Content-Type": "application/json",
         }
     });
 
     var authenticated = false;
     const json = await response.json();
     json.forEach(element => {
-        if (element.Username==username) {
-            if (element.Password==password) {
+        if (element.Username == username) {
+            if (element.Password == password) {
                 authenticated = true;
             }
         }
@@ -65,10 +72,20 @@ async function login(username, password) {
 
 async function toggleAlertBox(show) {
     const alertEl = $('#login-alert')
-  
+
     if (show) {
-      alertEl.removeClass('d-none')
+        alertEl.removeClass('d-none')
     } else {
-      alertEl.addClass('d-none')
+        alertEl.addClass('d-none')
     }
-  }
+}
+
+async function toggleForgotBox(show) {
+    const alertEl = $('#forgot-alert')
+    
+    if (show) {
+        alertEl.removeClass('d-none')
+    } else {
+        alertEl.addClass('d-none')
+    }
+}

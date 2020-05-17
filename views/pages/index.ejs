@@ -19,41 +19,46 @@
   <div class="row">
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
-        <div class="card">
-          <article class="card-body">
-            <button type="submit" id="btn-sign-up" class="btn btn-primary float-right">Sign up</button>
-            <h4 class="card-title mb-4 mt-1">Sign in</h4>
-            <form action="/profile" method="post">
-              <div class="form-group">
-                <label>Username</label>
-                <input id="tfd-username" name="" class="form-control" placeholder="Username" type="text">
-              </div>
-              <div class="form-group">
-                <!--
-                  TODO // make a forgot password
-                  <a class="float-right" href="#">Forgot?</a>
-                -->
-                <label>Password</label>
-                <input id="tfd-password" class="form-control" placeholder="******" type="password">
-              </div>
-              <div class="form-group"> 
-              </div> 
-              <div class="form-group">
-                  <button id="btn-login" type="submit" class="btn btn-primary btn-block"> Login  </button>
-              </div>    
-              <div class="row justify-content-center">
-                <div class="col-xs-12 col-sm-8">
-                  <div id="login-alert" class="alert alert-danger d-none" role="alert">
-                    Username or password not correct
-                  </div>
+      <div class="card">
+        <article class="card-body">
+          <button type="submit" id="btn-sign-up" class="btn btn-primary float-right">Sign up</button>
+          <h4 class="card-title mb-4 mt-1">Sign in</h4>
+          <form action="/profile" method="post">
+            <div class="form-group">
+              <label>Username</label>
+              <input id="tfd-username" name="" class="form-control" placeholder="Username" type="text">
+            </div>
+            <div class="form-group">
+              <a class="float-right" href="#" id="forgotButton">Forgot?</a>
+              <label>Password</label>
+              <input id="tfd-password" class="form-control" placeholder="******" type="password">
+            </div>
+            <div class="form-group">
+            </div>
+            <div class="form-group">
+              <button id="btn-login" type="submit" class="btn btn-primary btn-block"> Login </button>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-xs-12 col-sm-8">
+                <div id="login-alert" class="alert alert-danger d-none" role="alert">
+                  Username or password not correct
                 </div>
-              </div>                                               
-            </form>
-          </article>
-        </div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-xs-12 col-sm-8">
+                <div id="forgot-alert" class="alert alert-danger d-none" role="alert">
+                  E-mail with your password has been send
+                  <!-- TODO: combine TOggle forgot-alert and login-alert function via parameter -->
+                </div>
+              </div>
+            </div>
+          </form>
+        </article>
       </div>
-      <div class="col-sm-4"></div>
     </div>
+    <div class="col-sm-4"></div>
+  </div>
 </body>
 
 
