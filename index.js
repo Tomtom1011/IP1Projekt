@@ -63,6 +63,11 @@ app.post('/api/posts', (req, res) => {
     });
 });
 
+app.deletePost('/api/posts', (req, res) => {
+    //todo
+    db.run('DELETE FROM Posts WHERE TIMESTAMP=?')
+})
+
 const server = app.listen(port, () => {
     console.log(`Server listening on port ${port}…`)
 });

@@ -1,4 +1,4 @@
-$( document ).ready((() => {
+$(document).ready((() => {
 
     getData();
 
@@ -19,13 +19,13 @@ async function getData() {
     const response = await fetch('/api/posts', {
         method: "get",
         headers: {
-        "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
     });
 
     const json = await response.json();
     json.forEach(element => {
-        if (element.Username==getCookie("username")) {
+        if (element.Username == getCookie("username")) {
             tableBody.prepend(`
                 <div class="row justify-content-center">
                     <div class="col-1">
@@ -39,6 +39,10 @@ async function getData() {
                                     </td>
                                     <td class="table-data-right">
                                         <p>${element.Timestamp}</p>
+
+                                    </td>
+                                    <td class="table-data-right">
+                                        <p><button id="deleteButton">X</button></p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -47,8 +51,19 @@ async function getData() {
                                     </td>
                                 </tr>
                                 <tr>
-                                    <!-- TODO: add comment function -->
+                                    <td class="table-comment">
+                                        <p>
+                                            <button class="textBtn" id="commentBtn">Kommentieren</button>
+                                        </p>
+
+                                    </td>
+                                    <td class="d-none" id="commentField">
+                                        <form method="post" action="/profile">
+                                            <textarea name="CommentTextField" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
+                                        </form>
+                                    </td>
                                 </tr>
+
                             </table>
                         </div>
                     </div>
@@ -60,19 +75,32 @@ async function getData() {
     });
 }
 
+async function delPost() {
+    //todo
+}
+
+async function comment() {
+    const btn = $('#commentBtn');
+    const comment = $('#commentField');
+
+    btn.on('click', (event) => {
+        comment.removeClass('d-none');
+    })
+}
+
 async function savePost(message) {
 
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
+    var dateTime = date + ' ' + time;
 
     var username = getCookie("username");
 
     await fetch('/api/posts', {
         method: "post",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             username,
@@ -87,14 +115,14 @@ function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
-  }
+}

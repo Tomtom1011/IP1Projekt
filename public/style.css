@@ -16,3 +16,29 @@
     width:100%;
     text-align: right;
 }
+.table-comment {
+    justify-content: right;
+    
+}
+
+.textBtn {
+    border: none;
+    border-radius: 5px;
+    padding: 1px 2px 1px 2px;
+    background-color: inherit;
+    color: rgb(14, 33, 212);
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+  }
+.textBtn:hover {
+    background: rgb(14, 33, 212);
+    color: white;
+
+}
+
+#deleteButton {
+    font-size: 75%;
+    text-align: center;
+    padding: 0px 2px 0px 2px;
+}
