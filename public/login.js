@@ -21,7 +21,7 @@ $(document).ready((() => {
 
     forgot.on('click', (event) => {
         event.preventDefault();
-        toggleForgotBox(true);
+        toggleBox(true, 1);
     })
 }));
 
@@ -60,32 +60,37 @@ async function login(username, password) {
     });
 
     if (authenticated) {
-        toggleAlertBox(false);
+        toggleBox(false, 0);
         document.cookie = `username=${username};`
         window.location.replace("/profile");
     } else {
-        toggleAlertBox(true);
+        toggleBox(true, 0);
         tfdUsername.val('');
         tfdPassword.val('');
     }
 }
 
-async function toggleAlertBox(show) {
-    const alertEl = $('#login-alert')
+async function toggleBox(show, x) {
+    // x==0 for login-alert; x==1 for forgot-alert
 
-    if (show) {
-        alertEl.removeClass('d-none')
-    } else {
-        alertEl.addClass('d-none')
-    }
-}
+    const alertEl = $('#login-alert');
+    const alertF = $('#forgot-alert');
 
-async function toggleForgotBox(show) {
-    const alertEl = $('#forgot-alert')
-    
-    if (show) {
-        alertEl.removeClass('d-none')
-    } else {
-        alertEl.addClass('d-none')
+    alertEl.addClass('d-none');
+    alertF.addClass('d-none');
+
+    if (x == 0) {
+        if (show) {
+            alertEl.removeClass('d-none');
+        } else {
+            alertEl.addClass('d-none');
+        }
+    } else if (x == 1) {
+        if (show) {
+            alertF.removeClass('d-none');
+        } else {
+            alertF.addClass('d-none');
+        }
     }
+
 }
