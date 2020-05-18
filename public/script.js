@@ -53,7 +53,7 @@ async function getData() {
                                 <tr>
                                     <td class="table-comment">
                                         <p>
-                                            <button class="textBtn" id="commentBtn">Kommentieren</button>
+                                            <button class="textBtn" id="commentBtn" onclick="comment()">Kommentieren</button>
                                         </p>
 
                                     </td>
@@ -80,12 +80,14 @@ async function delPost() {
 }
 
 async function comment() {
+    //not working like planned yet
+
     const btn = $('#commentBtn');
     const comment = $('#commentField');
+    comment.removeClass('d-none');
 
-    btn.on('click', (event) => {
-        comment.removeClass('d-none');
-    })
+
+
 }
 
 async function savePost(message) {
