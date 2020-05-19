@@ -57,7 +57,7 @@ async function getData() {
                                         </p>
 
                                     </td>
-                                    <td class="d-none" id="commentField">
+                                    <td id="commentField">
                                         <form method="post" action="/profile">
                                             <textarea name="CommentTextField" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
                                         </form>
