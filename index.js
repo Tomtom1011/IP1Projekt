@@ -65,7 +65,7 @@ app.post('/api/posts', (req, res) => {
 
 //app.deletePost('/api/posts', (req, res) => {
 //todo
-//  db.run('DELETE FROM Posts WHERE TIMESTAMP=?')
+//  db.run('DELETE FROM Posts WHERE ID=?')
 //})
 
 const server = app.listen(port, () => {
