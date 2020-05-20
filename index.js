@@ -63,10 +63,15 @@ app.post('/api/posts', (req, res) => {
     });
 });
 
-//app.deletePost('/api/posts', (req, res) => {
-//todo
-//  db.run('DELETE FROM Posts WHERE ID=?')
-//})
+app.deletePost('/api/posts', (req, res) => {
+    db.run('DELETE FROM Posts WHERE ID=19', function (err) {
+        if (err) {
+            console.log("Couldn't delete Post")
+        } else {
+            console.log("Post deleted")
+        }
+    });
+});
 
 const server = app.listen(port, () => {
     console.log(`Server listening on port ${port}…`)

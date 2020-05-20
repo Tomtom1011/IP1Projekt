@@ -27,7 +27,7 @@ async function getData() {
     json.forEach(element => {
         if (element.Username == getCookie("username")) {
             tableBody.prepend(`
-                <div class="row justify-content-center" id="${element.ID}">
+                <div class="row justify-content-center">
                     <div class="col-1">
                     </div>
                     <div class="col-10">
@@ -42,7 +42,7 @@ async function getData() {
 
                                     </td>
                                     <td class="table-data-right">
-                                        <p><button id="deleteButton">X</button></p>
+                                        <p><button name="deleteButton" id="${element.ID}" onclick="delPost(this.id)">X</button></p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -75,8 +75,18 @@ async function getData() {
     });
 }
 
-async function delPost() {
-    //todo
+async function delPost(id) {
+    var delId = id;
+
+    await fetch('/api/deletePost', {
+        method: "deletePost",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            delId
+        }),
+    });
 }
 
 async function comment() {
