@@ -20,6 +20,10 @@ app.get('/profile', (req, res) => {
     res.render('pages/profile');
 });
 
+app.get('/posts', (req, res) => {
+    res.render('pages/posts');
+});
+
 app.get('/test', (req, res) => {
     res.render('pages/test');
 });
