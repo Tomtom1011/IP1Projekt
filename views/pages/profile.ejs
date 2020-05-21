@@ -2,43 +2,45 @@
 <html lang="en">
 
 <head>
-  <%- include ("../partials/head") %>
-  <script src="./../public/script.js"></script>
+    <%- include ("../partials/head") %>
+    <script src="./../public/script.js"></script>
 </head>
 
 <body class="all">
 
-  <%- include('../partials/nav', { active: 'index' }) %>
+    <%- include('../partials/nav', { active: 'index' }) %>
 
-  <div class="container">
+    <div class="container">
 
-    <div class="row justify-content-center">
-        <div class="col-1">
-            <!-- Left column-->
-        </div>
-        <div class="col-10">
-            <!-- Content column-->
-            <div class="profile-entry">
+        <div class="row justify-content-center">
+            <div class="col-1">
+                <!-- Left column-->
+            </div>
+            <div class="col-10">
+                <!-- Content column-->
+                <div class="profile-entry">
 
-                <form id="form-new-post" method="post" action="/profile">
-                    <div class="form-group">
-                        <label>Erstelle einen neuen Post:</label>
-                        <textarea id="form-post-message" name="newPostMessage" class="form-control" id="form-textarea" placeholder="Neuer Post..."></textarea>
-                    </div>
-                    <button id="form-post-submit" type="submit" class="btn btn-primary">Post</button>
-                </form>
-                    
+                    <form id="form-new-post" method="post" action="/profile">
+                        <div class="form-group">
+                            <label>Erstelle einen neuen Post:</label>
+                            <textarea id="form-post-message" name="newPostMessage" class="form-control"
+                                id="form-textarea" placeholder="Neuer Post..."></textarea>
+                        </div>
+                        <button id="form-post-submit" type="submit" class="btn btn-primary">Post</button>
+                    </form>
+
+                </div>
+            </div>
+            <div class="col-1">
+                <!-- Right column-->
             </div>
         </div>
-        <div class="col-1">
-            <!-- Right column-->
+
+        <div id="container-posts">
+            <!-- Container for posts, do not touch -->
         </div>
+
     </div>
-
-    <div id="container-posts">
-        <!-- Container for posts, do not touch -->
-    </div> 
-
-  </div>
 </body>
+
 </html>
