@@ -63,17 +63,17 @@ app.post('/api/posts', (req, res) => {
     });
 });
 
-/*
-app.deletePost('/api/posts', (req, res) => {
-    db.run('DELETE FROM Posts WHERE ID=VALUES(?)', [req.body.id], function (err) {
+
+app.delete('/api/delete', (req, res) => {
+    db.run('DELETE FROM Posts WHERE ID=\'' + req.body.delId + '\'', function (err) {
         if (err) {
             console.log("Couldn't delete Post")
         } else {
-            console.log("Post deleted")
+            console.log("Post deleted with id " + + req.body.delId)
         }
     });
 });
-*/
+
 
 const server = app.listen(port, () => {
     console.log(`Server listening on port ${port}…`)

@@ -77,16 +77,18 @@ async function getData() {
 
 async function delPost(id) {
     var delId = id;
+    console.log(id);
 
-    await fetch('/api/deletePost', {
-        method: "deletePost",
+    await fetch('/api/delete', {
+        method: "delete",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
             delId
         }),
-    });
+    }).then(getData());
+
 }
 
 async function comment() {
