@@ -75,52 +75,6 @@ async function getData() {
                 </div> 
             `);
         }
-        allPostsTableBody.prepend(`
-        <div class="row justify-content-center">
-            <div class="col-1">
-            </div>
-            <div class="col-10">
-                <div class="profile-entry">
-                    <table>
-                        <tr>
-                            <td>
-                                <p><b>${element.Username}:<b></p>
-                            </td>
-                            <td class="table-data-right">
-                                <p>${element.Timestamp}</p>
-
-                            </td>
-                            <td class="table-data-right">
-                                <p><button name="deleteButton" id="${element.ID}" onclick="delPost(this.id)">X</button></p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <p>${element.Message}</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="table-comment">
-                                <p>
-                                    <button class="textBtn" id="commentBtn" onclick="comment()">Kommentieren</button>
-                                </p>
-
-                            </td>
-                            <td id="commentField">
-                                <form method="post" action="/profile">
-                                    <textarea name="CommentTextField" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
-                                </form>
-                            </td>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-            <div class="col-1">
-            </div>
-        </div> 
-    `);
-
     });
 }
 
