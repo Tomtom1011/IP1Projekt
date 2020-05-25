@@ -5,7 +5,7 @@ $(document).ready((() => {
     const submitNewPost = $('#form-new-post');
     const tfdPostMessage = $('#form-post-message');
 
-    submitNewPost.on('submit', (event) => {
+    submitNewPost.on('submit', async function (event) {
         event.preventDefault();
         savePost(tfdPostMessage.val());
         tfdPostMessage.val('');
@@ -97,9 +97,6 @@ async function comment() {
     const btn = $('#commentBtn');
     const comment = $('#commentField');
     comment.removeClass('d-none');
-
-
-
 }
 
 async function savePost(message) {
@@ -111,18 +108,21 @@ async function savePost(message) {
 
     var username = getCookie("username");
 
-    await fetch('/api/posts', {
-        method: "post",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username,
-            message,
-            dateTime,
-        }),
-    });
-
+    try {
+        await fetch('/api/posts', {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                message,
+                dateTime,
+            }),
+        });
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 function getCookie(cname) {
