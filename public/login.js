@@ -62,7 +62,7 @@ async function login(username, password) {
     if (authenticated) {
         toggleBox(false, 0);
         document.cookie = `username=${username};`
-        window.location.replace("/profile");
+        window.location.replace("/posts");
     } else {
         toggleBox(true, 0);
         tfdUsername.val('');
