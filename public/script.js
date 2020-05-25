@@ -4,6 +4,11 @@ $(document).ready((() => {
 
     const submitNewPost = $('#form-new-post');
     const tfdPostMessage = $('#form-post-message');
+    const btnSearch = $('#form-search-profile');
+    const tfdSearch = $('#form-search-text');
+
+    btnSearch.removeClass('d-none');
+    tfdSearch.removeClass('d-none');
 
     submitNewPost.on('submit', async function (event) {
         event.preventDefault();
@@ -11,6 +16,12 @@ $(document).ready((() => {
         tfdPostMessage.val('');
         getData();
     });
+
+    btnSearch.on('click', (event) => {
+        event.preventDefault();
+        console.log("Click");
+        let searchValue = tfdSearch.val();
+    })
 }));
 
 async function getData() {

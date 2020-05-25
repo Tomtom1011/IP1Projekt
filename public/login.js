@@ -6,6 +6,12 @@ $(document).ready((() => {
     const tfdPassword = $('#tfd-password');
     const forgot = $('#forgotButton');
 
+    const btnSearch = $('#form-search-profile');
+    const tfdSearch = $('#form-search-text');
+
+    btnSearch.addClass('d-none');
+    tfdSearch.addClass('d-none');
+
 
     btnLogin.on('click', async function (event) {
         event.preventDefault();
