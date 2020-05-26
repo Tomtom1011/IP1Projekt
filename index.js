@@ -36,12 +36,19 @@ app.get('/api/user', (req, res) => {
     });
 });
 
+app.get('/api/comments', (req, res) => {
+    db.all('SELECT * FROM Comments', (err, user) => {
+        res.json(user);
+    });
+});
+
+
 app.post('/api/user', (req, res) => {
     if (req.body.username && req.body.password) {
         db.run('INSERT INTO User(Username, Password) VALUES(?, ?)', [req.body.username, req.body.password], function (err) {
             if (err) {
                 console.log("DB Insert User Error values (" + req.body.username + "," + req.body.password + ")");
-                res.json({error: err});
+                res.json({ error: err });
             } else {
                 console.log("Created user " + req.body.username);
                 res.json({
@@ -63,7 +70,28 @@ app.post('/api/posts', (req, res) => {
                     req.body.username + "," +
                     req.body.message + "," +
                     req.body.dateTime + ")");
-                    res.json({error: err});
+                res.json({ error: err });
+            } else {
+                console.log("Created post");
+                res.json({
+                    ...req.body,
+                    id: this.lastID,
+                });
+            }
+        });
+    }
+});
+
+app.post('/api/comments', (req, res) => {
+    if (req.body.username && req.body.message && req.body.dateTime && req.body.referenceID) {
+        db.run('INSERT INTO Posts(Username, Message, Timestamp, ReferenceID) VALUES(?, ?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime, req.body.referenceID], function (err) {
+            if (err) {
+                console.log("DB Insert Posts Error values (" +
+                    req.body.username + "," +
+                    req.body.message + "," +
+                    req.body.dateTime + "," +
+                    req.body.referenceID + ")");
+                res.json({ error: err });
             } else {
                 console.log("Created post");
                 res.json({
@@ -79,10 +107,10 @@ app.delete('/api/delete', (req, res) => {
     db.run('DELETE FROM Posts WHERE ID=\'' + req.body.delId + '\'', function (err) {
         if (err) {
             console.log("Couldn't delete Post");
-            res.json({error: err});
+            res.json({ error: err });
         } else {
             console.log("Post deleted with id " + + req.body.delId);
-            
+
             res.json({
                 ...req.body,
                 id: this.lastID,

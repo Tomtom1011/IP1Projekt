@@ -52,7 +52,7 @@ async function getData() {
     json.forEach(element => {
         if (element.Username == getCookie("profile")) {
             tableBody.prepend(`
-                <div class="row justify-content-center">
+                    <div class="row justify-content-center">
                     <div class="col-1">
                     </div>
                     <div class="col-10">
@@ -67,7 +67,7 @@ async function getData() {
 
                                     </td>
                                     <td class="table-data-right">
-                                        <p><button name="deleteButton" id="${element.ID}" onclick="delPost(this.id)">X</button></p>
+                                        <p><button class="deleteButton" name="deleteButton" id="${element.ID}" onclick="delPost(this.id)">X</button></p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -78,13 +78,13 @@ async function getData() {
                                 <tr>
                                     <td class="table-comment">
                                         <p>
-                                            <button class="textBtn" id="commentBtn" onclick="comment()">Kommentieren</button>
+                                            <button class="textBtn" name="${element.ID}" onclick="saveComment(this.name)" type="submit">Kommentieren</button>
                                         </p>
 
                                     </td>
-                                    <td id="commentField">
+                                    <td>
                                         <form method="post" action="/profile">
-                                            <textarea name="CommentTextField" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
+                                            <textarea name="CommentTextField" id="form_new_comment_${element.ID}" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
                                         </form>
                                     </td>
                                 </tr>
@@ -152,6 +152,34 @@ async function savePost(message) {
     } catch (err) {
         console.error(err);
     }
+}
+
+async function saveComment(id) {
+
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+
+    var username = getCookie("username");
+    var referenceID = id;
+    var messageField = "form_new_comment_" + id;
+    var messageFieldName = $("messageField")
+    console.log(messageField + " " + messageFieldName.val())
+    var message = messageFieldName.val();
+
+    await fetch('/api/comments', {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            username,
+            message,
+            dateTime,
+            referenceID
+        }),
+    });
 }
 
 function getCookie(cname) {
