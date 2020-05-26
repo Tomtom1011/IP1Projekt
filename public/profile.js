@@ -26,12 +26,15 @@ $(document).ready((() => {
 }));
 
 function myProfile() {
+    console.log("func myProfile now profile page" + getCookie("profile"))
     setCookie("profile", getCookie("loggedInUsername"));
     getData();
 }
 
 async function getData() {
     const tableBody = $('#container-posts');
+    const allPostsTableBody =  $('#container-all-posts');
+    allPostsTableBody.empty();
     tableBody.empty();
     const response = await fetch('/api/posts', {
         method: "get",

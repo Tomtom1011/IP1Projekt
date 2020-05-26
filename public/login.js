@@ -31,16 +31,43 @@ $(document).ready((() => {
 }));
 
 async function saveUser(username, password) {
-    await fetch('/api/user', {
-        method: "post",
+
+    const response = await fetch('/api/user', {
+        method: "get",
         headers: {
             "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            username,
-            password,
-        }),
+        }
     });
+
+    var alreadyExist = false;
+
+    const json = await response.json();
+    json.forEach(element => {
+        if (element.Username == username) {
+            alreadyExist = true;
+        }
+    });
+
+    if (alreadyExist) {
+        toggleBox(true, 2);
+    } else {
+        toggleBox(false, 2);
+        await fetch('/api/user', {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                password,
+            }),
+        });
+        setCookie("loggedInUsername", username);
+        setCookie("profile", username)
+        window.location.replace("/posts");
+    }
+
+    
 }
 
 function myProfile() {
@@ -73,7 +100,7 @@ async function login(username, password) {
         toggleBox(false, 0);
         setCookie("loggedInUsername", username);
         setCookie("profile", username)
-        window.location.replace("/profile");
+        window.location.replace("/posts");
     } else {
         toggleBox(true, 0);
         tfdUsername.val('');
@@ -82,13 +109,16 @@ async function login(username, password) {
 }
 
 async function toggleBox(show, x) {
-    // x==0 for login-alert; x==1 for forgot-alert
+    // x==0 for login-alert; x==1 for forgot-alert; x==2 for user-exist-alter;
 
     const alertEl = $('#login-alert');
     const alertF = $('#forgot-alert');
+    const alertUE = $('#user-exist-alert');
+    
 
     alertEl.addClass('d-none');
     alertF.addClass('d-none');
+    alertUE.addClass('d-none');
 
     if (x == 0) {
         if (show) {
@@ -101,6 +131,12 @@ async function toggleBox(show, x) {
             alertF.removeClass('d-none');
         } else {
             alertF.addClass('d-none');
+        }
+    } else if (x == 2) {
+        if (show) {
+            alertUE.removeClass('d-none');
+        } else {
+            alertUE.addClass('d-none');
         }
     }
 

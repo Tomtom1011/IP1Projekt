@@ -7,16 +7,17 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item <%= active === 'index' ? 'active' : undefined  %>">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      <li class="nav-item <%= active === 'posts' ? 'active' : undefined  %>">
+        <a class="nav-link" href="/posts">Übersicht</a>
       </li>
-      <li class="nav-item <%= active === 'add-entry' ? 'active' : undefined  %>">
-        <a class="nav-link" href="#" onClick="myProfile()">Your Profile</a>
+      <li class="nav-item <%= active === 'profile' ? 'active' : undefined  %>">
+        <a class="nav-link" href="#" onClick="myProfile()">Dein Profil</a>
       </li>
+      
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input id="form-search-text" class="form-control mr-sm-2 d-none" type="search" placeholder="Search" aria-label="Search">
-      <button id="form-search-profile" class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Search</button>
+      <input id="form-search-text" class="form-control mr-sm-2 d-none" type="search" placeholder="..." aria-label="Search">
+      <button id="form-search-profile" class="btn btn-outline-success my-2 my-sm-0 d-none" type="submit">Suchen</button>
     </form>
   </div>
 </nav>

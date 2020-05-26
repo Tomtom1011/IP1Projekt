@@ -7,11 +7,13 @@
 </head>
 
 <body class="all">
-  <%- include('../partials/nav', { active: 'index' }) %>
+  <!--<%- include('../partials/nav', { active: 'index' }) %>-->
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-xs-12 col-sm-8">
-        <h1 class="hft-sb-title display-5">Twitter 2.0</h1>
+        <br/>
+        <h1 style="text-align: center;" class="hft-sb-title display-5">Twitter 2.0</h1>
+        <br/>
       </div>
     </div>
   </div>
@@ -21,34 +23,41 @@
     <div class="col-sm-4">
       <div class="card">
         <article class="card-body">
-          <button type="submit" id="btn-sign-up" class="btn btn-primary float-right">Sign up</button>
-          <h4 class="card-title mb-4 mt-1">Sign in</h4>
+          <button type="submit" id="btn-sign-up" class="btn btn-primary float-right">Anmelden</button>
+          <h4 class="card-title mb-4 mt-1">Anmelden</h4>
           <form action="/profile" method="post">
             <div class="form-group">
-              <label>Username</label>
-              <input id="tfd-username" name="" class="form-control" placeholder="Username" type="text">
+              <label>Benutzername</label>
+              <input id="tfd-username" name="" class="form-control" placeholder="Benutzername" type="text">
             </div>
             <div class="form-group">
-              <a class="float-right" href="#" id="forgotButton">Forgot?</a>
-              <label>Password</label>
+              <a class="float-right" href="#" id="forgotButton">Passwort vergessen?</a>
+              <label>Passwort</label>
               <input id="tfd-password" class="form-control" placeholder="******" type="password">
             </div>
             <div class="form-group">
             </div>
             <div class="form-group">
-              <button id="btn-login" type="submit" class="btn btn-primary btn-block"> Login </button>
+              <button id="btn-login" type="submit" class="btn btn-primary btn-block"> Einloggen </button>
             </div>
             <div class="row justify-content-center">
               <div class="col-xs-12 col-sm-8">
                 <div id="login-alert" class="alert alert-danger d-none" role="alert">
-                  Username or password not correct
+                  Benutzername oder Passwort nicht korrekt
                 </div>
               </div>
             </div>
             <div class="row justify-content-center">
               <div class="col-xs-12 col-sm-8">
                 <div id="forgot-alert" class="alert alert-danger d-none" role="alert">
-                  E-mail with your password has been send
+                  E-mail mit deinem Passwort wurde gesendet
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center">
+              <div class="col-xs-12 col-sm-8">
+                <div id="user-exist-alert" class="alert alert-danger d-none" role="alert">
+                  Benutzer existiert bereits
                 </div>
               </div>
             </div>
