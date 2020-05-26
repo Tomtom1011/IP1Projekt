@@ -12,7 +12,6 @@ $(document).ready((() => {
     btnSearch.addClass('d-none');
     tfdSearch.addClass('d-none');
 
-
     btnLogin.on('click', async function (event) {
         event.preventDefault();
         login(tfdUsername.val(), tfdPassword.val());
@@ -44,6 +43,11 @@ async function saveUser(username, password) {
     });
 }
 
+function myProfile() {
+    setCookie("profile", getCookie("loggedInUsername"));
+    getData();
+}
+
 async function login(username, password) {
     const tfdUsername = $('#tfd-username');
     const tfdPassword = $('#tfd-password');
@@ -67,7 +71,8 @@ async function login(username, password) {
 
     if (authenticated) {
         toggleBox(false, 0);
-        document.cookie = `username=${username};`
+        setCookie("loggedInUsername", username);
+        setCookie("profile", username)
         window.location.replace("/profile");
     } else {
         toggleBox(true, 0);
@@ -99,4 +104,8 @@ async function toggleBox(show, x) {
         }
     }
 
+}
+
+function setCookie(cookie, value) {
+    document.cookie = cookie + "=" + value;
 }

@@ -19,10 +19,16 @@ $(document).ready((() => {
 
     btnSearch.on('click', (event) => {
         event.preventDefault();
-        console.log("Click");
         let searchValue = tfdSearch.val();
+        setCookie("profile", searchValue);
+        window.location.replace("/profile");
     })
 }));
+
+function myProfile() {
+    setCookie("profile", getCookie("loggedInUsername"));
+    getData();
+}
 
 async function getData() {
     const tableBody = $('#container-posts');
@@ -34,9 +40,17 @@ async function getData() {
         },
     });
 
+    const newPostForm = $('#form-new-post');
+
+    if (isOwnProfile()) {
+        newPostForm.removeClass("d-none");
+    } else {
+        newPostForm.addClass("d-none");
+    }
+
     const json = await response.json();
     json.forEach(element => {
-        if (element.Username == getCookie("username")) {
+        if (element.Username == getCookie("profile")) {
             tableBody.prepend(`
                 <div class="row justify-content-center">
                     <div class="col-1">
@@ -86,6 +100,10 @@ async function getData() {
     });
 }
 
+function isOwnProfile() {
+    return getCookie("profile") === getCookie("loggedInUsername");
+}
+
 async function delPost(id) {
     var delId = id;
     console.log(id);
@@ -117,8 +135,8 @@ async function savePost(message) {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
-    var username = getCookie("username");
-
+    var username = getCookie("loggedInUsername");
+    console.log(getCookie("loggedInUsername"));
     try {
         await fetch('/api/posts', {
             method: "post",
@@ -150,4 +168,8 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function setCookie(cookie, value) {
+    document.cookie = cookie + "=" + value;
 }
