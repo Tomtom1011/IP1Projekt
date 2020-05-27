@@ -34,7 +34,7 @@ function myProfile() {
 
 async function getData() {
     const tableBody = $('#container-posts');
-    const allPostsTableBody =  $('#container-all-posts');
+    const allPostsTableBody = $('#container-all-posts');
     allPostsTableBody.empty();
     tableBody.empty();
     const response = await fetch('/api/posts', {
@@ -49,7 +49,54 @@ async function getData() {
 
     const json = await response.json();
     json.forEach(element => {
-        allPostsTableBody.prepend(`
+        if (element.Username == getCookie("profile")) {
+            allPostsTableBody.prepend(`
+            <div class="row justify-content-center">
+                <div class="col-1">
+            </div>
+            <div class="col-10">
+                <div class="profile-entry">
+                    <table>
+                        <tr>
+                            <td>
+                                <p><b>${element.Username}:<b></p>
+                            </td>
+                            <td class="table-data-right">
+                                <p>${element.Timestamp}</p>
+
+                            </td>
+                            <td class="table-data-right">
+                                <p><button class="deleteButton" name="deleteButton" id="${element.ID}" onclick="delPost(this.id)">X</button></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p>${element.Message}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="table-comment">
+                                <p>
+                                    <button class="textBtn" name="${element.ID}" onclick="saveComment(this.name)" type="submit">Kommentieren</button>
+                                </p>
+
+                            </td>
+                            <td>
+                                <form method="post" action="/profile">
+                                    <textarea name="CommentTextField" id="form_new_comment_${element.ID}" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
+                                </form>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="col-1">
+            </div>
+        
+    `);
+        } else {
+            allPostsTableBody.prepend(`
         <div class="row justify-content-center">
             <div class="col-1">
             </div>
@@ -64,9 +111,7 @@ async function getData() {
                                 <p>${element.Timestamp}</p>
 
                             </td>
-                            <td class="table-data-right">
-                                <p><button name="deleteButton" id="${element.ID}" onclick="delPost(this.id)">X</button></p>
-                            </td>
+
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -93,7 +138,8 @@ async function getData() {
             <div class="col-1">
             </div>
         </div> 
-    `);
+    `)
+        };
 
     });
 }
@@ -101,15 +147,16 @@ async function getData() {
 async function delPost(id) {
     var delId = id;
 
-    await fetch('/api/deletePost', {
-        method: "deletePost",
+    await fetch('/api/delete', {
+        method: "delete",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
             delId
         }),
-    });
+    }).then(getData());
+
 }
 
 async function comment() {
