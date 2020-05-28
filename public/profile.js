@@ -33,7 +33,7 @@ function myProfile() {
 
 async function getData() {
     const tableBody = $('#container-posts');
-    const allPostsTableBody =  $('#container-all-posts');
+    const allPostsTableBody = $('#container-all-posts');
     allPostsTableBody.empty();
     tableBody.empty();
     const response = await fetch('/api/posts', {
@@ -42,6 +42,15 @@ async function getData() {
             "Content-Type": "application/json",
         },
     });
+
+
+    const comment = await fetch('/api/comments', {
+        method: "get",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const commentJson = await comment.json();
 
     const newPostForm = $('#form-new-post');
 
@@ -54,6 +63,80 @@ async function getData() {
     const json = await response.json();
     json.forEach(element => {
         if (element.Username == getCookie("profile")) {
+            commentJson.forEach(comment => {
+                if (comment.ReferenceID == element.ID) {
+                    if (comment.Username != getCookie("profile")) {
+                        tableBody.prepend
+                            (`
+                        <div class="row justify-content-center">
+                        <div class="col-1">
+                        </div>
+                        <div class="col-9" >
+                            <div class="profile-entry" style="background-color:Grey">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p><b>${comment.Username} kommentiert:<b></p>
+                                        </td>
+                                        <td class="table-data-right">
+                                            <p>${comment.Timestamp}</p>
+    
+                                        </td>
+                                        
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <p>${comment.Message}</p>
+                                        </td>
+                                    </tr>
+    
+    
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-1">
+                        </div>
+                    </div> 
+                `);
+                    } else {
+                        tableBody.prepend
+                            (`
+                            <div class="row justify-content-center">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-9" >
+                                <div class="profile-entry" style="background-color:Grey">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p><b>${comment.Username} kommentiert:<b></p>
+                                            </td>
+                                            <td class="table-data-right">
+                                                <p>${comment.Timestamp}</p>
+    
+                                            </td>
+                                            <td class="table-data-right">
+                                                <p><button class="deleteButton" name="deleteButton" id="${comment.ID}" onclick="delComment(this.id)">X</button></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <p>${comment.Message}</p>
+                                            </td>
+                                        </tr>
+    
+    
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                            </div>
+                        </div> 
+                    `)
+                    };
+
+                }
+            })
             tableBody.prepend(`
                     <div class="row justify-content-center">
                     <div class="col-1">
@@ -87,7 +170,7 @@ async function getData() {
                                     </td>
                                     <td>
                                         <form method="post" action="/profile">
-                                            <textarea name="CommentTextField" id="form_new_comment_${element.ID}" class="form-control" id="form-textarea" placeholder="Kommentar..."></textarea>
+                                            <textarea name="CommentTextField" id="form_new_comment_${element.ID}" class="form-control" placeholder="Kommentar..."></textarea>
                                         </form>
                                     </td>
                                 </tr>
@@ -100,6 +183,8 @@ async function getData() {
                 </div> 
             `);
         }
+
+
     });
 }
 
@@ -123,13 +208,22 @@ async function delPost(id) {
 
 }
 
-async function comment() {
-    //not working like planned yet
+async function delComment(id) {
+    var delId = id;
+    console.log(id);
 
-    const btn = $('#commentBtn');
-    const comment = $('#commentField');
-    comment.removeClass('d-none');
+    await fetch('/api/deleteComments', {
+        method: "delete",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            delId
+        }),
+    }).then(getData());
+
 }
+
 
 async function savePost(message) {
 
@@ -164,12 +258,10 @@ async function saveComment(id) {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
-    var username = getCookie("username");
+    var username = getCookie("loggedInUsername");
     var referenceID = id;
     var messageField = "form_new_comment_" + id;
-    var messageFieldName = $("messageField")
-    console.log(messageField + " " + messageFieldName.val())
-    var message = messageFieldName.val();
+    var message = document.getElementById(messageField).value;
 
     await fetch('/api/comments', {
         method: "post",
@@ -183,6 +275,7 @@ async function saveComment(id) {
             referenceID
         }),
     });
+    getData();
 }
 
 function getCookie(cname) {

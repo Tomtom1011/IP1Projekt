@@ -88,7 +88,7 @@ app.post('/api/posts', (req, res) => {
 
 app.post('/api/comments', (req, res) => {
     if (req.body.username && req.body.message && req.body.dateTime && req.body.referenceID) {
-        db.run('INSERT INTO Posts(Username, Message, Timestamp, ReferenceID) VALUES(?, ?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime, req.body.referenceID], function (err) {
+        db.run('INSERT INTO Comments(Username, Message, Timestamp, ReferenceID) VALUES(?, ?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime, req.body.referenceID], function (err) {
             if (err) {
                 console.log("DB Insert Posts Error values (" +
                     req.body.username + "," +
@@ -109,6 +109,22 @@ app.post('/api/comments', (req, res) => {
 
 app.delete('/api/delete', (req, res) => {
     db.run('DELETE FROM Posts WHERE ID=\'' + req.body.delId + '\'', function (err) {
+        if (err) {
+            console.log("Couldn't delete Post");
+            res.json({ error: err });
+        } else {
+            console.log("Post deleted with id " + + req.body.delId);
+
+            res.json({
+                ...req.body,
+                id: this.lastID,
+            });
+        }
+    });
+});
+
+app.delete('/api/deleteComments', (req, res) => {
+    db.run('DELETE FROM Comments WHERE ID=\'' + req.body.delId + '\'', function (err) {
         if (err) {
             console.log("Couldn't delete Post");
             res.json({ error: err });
