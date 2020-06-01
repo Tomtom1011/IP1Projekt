@@ -67,12 +67,16 @@ app.post('/api/user', (req, res) => {
 })
 
 app.post('/api/posts', (req, res) => {
-    if (req.body.username && req.body.message && req.body.dateTime) {
-        db.run('INSERT INTO Posts(Username, Message, Timestamp) VALUES(?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime], function (err) {
+    console.log("Start");
+    console.log(req.body.username  + " " +  req.body.message + " " + req.body.likes + " " +  req.body.dateTime);
+    if (req.body.username && req.body.message && req.body.likes!= null && req.body.dateTime) {
+        console.log("Danach");
+        db.run('INSERT INTO Posts(Username, Message, Likes, Timestamp) VALUES(?, ?, ?, ?)', [req.body.username, req.body.message, req.body.likes, req.body.dateTime], function (err) {
             if (err) {
                 console.log("DB Insert Posts Error values (" +
                     req.body.username + "," +
                     req.body.message + "," +
+                    req.body.likes + "," + //Maybe delete
                     req.body.dateTime + ")");
                 res.json({ error: err });
             } else {
@@ -87,14 +91,15 @@ app.post('/api/posts', (req, res) => {
 });
 
 app.post('/api/comments', (req, res) => {
-    if (req.body.username && req.body.message && req.body.dateTime && req.body.referenceID) {
-        db.run('INSERT INTO Comments(Username, Message, Timestamp, ReferenceID) VALUES(?, ?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime, req.body.referenceID], function (err) {
+    if (req.body.username && req.body.message && req.body.dateTime && req.body.referenceID && req.body.like != null) {
+        db.run('INSERT INTO Comments(Username, Message, Timestamp, ReferenceID, Likes) VALUES(?, ?, ?, ?, ?)', [req.body.username, req.body.message, req.body.dateTime, req.body.referenceID, req.body.like], function (err) {
             if (err) {
                 console.log("DB Insert Posts Error values (" +
                     req.body.username + "," +
                     req.body.message + "," +
                     req.body.dateTime + "," +
-                    req.body.referenceID + ")");
+                    req.body.referenceID + "," +
+                    req.body.like + ")");
                 res.json({ error: err });
             } else {
                 console.log("Created post");
@@ -106,6 +111,37 @@ app.post('/api/comments', (req, res) => {
         });
     }
 });
+
+app.post('/api/likesPosts', (req, res)=>{
+    db.run('UPDATE Posts SET Likes=\'' + req.body.like + '\'  WHERE ID=\'' + req.body.id + '\'' , function (err) {
+        if (err) {
+            console.log("Couldn't like Post");
+            res.json({ error: err });
+        } else {
+            console.log("Post liked");
+            res.json({
+                ...req.body,
+                id: this.lastID,
+            });
+        }
+    });
+});
+
+app.post('/api/likesComments', (req, res)=>{
+    db.run('UPDATE Comments SET Likes=\'' + req.body.like + '\'  WHERE ID=\'' + req.body.id + '\'' , function (err) {
+        if (err) {
+            console.log("Couldn't like Post");
+            res.json({ error: err });
+        } else {
+            console.log("Post liked");
+            res.json({
+                ...req.body,
+                id: this.lastID,
+            });
+        }
+    });
+});
+
 
 app.delete('/api/delete', (req, res) => {
     db.run('DELETE FROM Posts WHERE ID=\'' + req.body.delId + '\'', function (err) {
@@ -130,7 +166,6 @@ app.delete('/api/deleteComments', (req, res) => {
             res.json({ error: err });
         } else {
             console.log("Post deleted with id " + + req.body.delId);
-
             res.json({
                 ...req.body,
                 id: this.lastID,
@@ -138,6 +173,7 @@ app.delete('/api/deleteComments', (req, res) => {
         }
     });
 });
+
 
 
 const server = app.listen(port, () => {

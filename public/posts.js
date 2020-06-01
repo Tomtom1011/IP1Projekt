@@ -66,7 +66,7 @@ async function getData() {
                     <div class="col-1">
                     </div>
                     <div class="col-9" >
-                        <div class="profile-entry" style="background-color:Grey">
+                        <div class="profile-entry comment">
                             <table>
                                 <tr>
                                     <td>
@@ -83,8 +83,12 @@ async function getData() {
                                         <p>${comment.Message}</p>
                                     </td>
                                 </tr>
-
-
+                                    <td class="table-like">   
+                                        <p>
+                                            <button class="likeBtnC" name="${comment.ID} ${comment.Likes}" onclick="likeComment(this.name)" type="submit">&#128077;</button>    
+                                            ${comment.Likes}
+                                        </p>
+                                    </td>
                             </table>
                         </div>
                     </div>
@@ -99,7 +103,7 @@ async function getData() {
                         <div class="col-1">
                         </div>
                         <div class="col-9" >
-                            <div class="profile-entry" style="background-color:Grey">
+                            <div class="profile-entry comment">
                                 <table>
                                     <tr>
                                         <td>
@@ -118,7 +122,14 @@ async function getData() {
                                             <p>${comment.Message}</p>
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td class="table-like">   
+                                            <p>
+                                                <button class="likeBtnC" name="${comment.ID} ${comment.Likes}" onclick="likeComment(this.name)" type="submit">&#128077;</button>    
+                                                ${comment.Likes}
+                                            </p>
+                                        </td>
+                                    </tr>
 
                                 </table>
                             </div>
@@ -158,11 +169,18 @@ async function getData() {
                             </td>
                         </tr>
                         <tr>
+                            <td class="table-like">   
+                                <p>
+                                    <button class="likeBtnP" name="${element.ID} ${element.Likes}" onclick="likePost(this.name)" type="submit">&#128077;</button>    
+                                    ${element.Likes}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="table-comment">
                                 <p>
                                     <button class="textBtn" name="${element.ID}" onclick="saveComment(this.name)" type="submit">Kommentieren</button>
                                 </p>
-
                             </td>
                             <td>
                                 <form method="post" action="/profile">
@@ -170,7 +188,6 @@ async function getData() {
                                 </form>
                             </td>
                         </tr>
-
                     </table>
                 </div>
             </div>
@@ -203,6 +220,14 @@ async function getData() {
                             </td>
                         </tr>
                         <tr>
+                            <td class="table-like">   
+                                <p>
+                                    <button class="likeBtnP" name="${element.ID} ${element.Likes}" onclick="likePost(this.name)" type="submit">&#128077;</button>    
+                                    ${element.Likes}
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
                             <td class="table-comment">
                                 <p>
                                     <button class="textBtn" name="${element.ID}" onclick="saveComment(this.name)" type="submit">Kommentieren</button>
@@ -224,8 +249,6 @@ async function getData() {
         </div> 
     `)
         };
-
-
     });
 }
 
@@ -241,12 +264,10 @@ async function delPost(id) {
             delId
         }),
     }).then(getData());
-
 }
 
 async function delComment(id) {
     var delId = id;
-    console.log(id);
 
     await fetch('/api/deleteComments', {
         method: "delete",
@@ -257,18 +278,49 @@ async function delComment(id) {
             delId
         }),
     }).then(getData());
+}
 
+async function likeComment(name){
+    var splited = name.split(' ');
+    var id = splited[0];
+    var like = parseInt(splited[1]) + 1;
+
+    await fetch('/api/likesComments', {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            id,
+            like
+        }),
+    }).then(getData());
+}
+
+async function likePost(name){
+    var splited = name.split(' ');
+    var id = splited[0];
+    var like = parseInt(splited[1]) + 1;
+
+    await fetch('/api/likesPosts', {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            id,
+            like
+        }),
+    }).then(getData());   
 }
 
 
-
 async function savePost(message) {
-
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var likes = 0; //maybe delete
     var dateTime = date + ' ' + time;
-
     var username = getCookie("loggedInUsername");
 
     await fetch('/api/posts', {
@@ -279,6 +331,7 @@ async function savePost(message) {
         body: JSON.stringify({
             username,
             message,
+            likes,   //maybe delete
             dateTime,
         }),
     });
@@ -296,6 +349,7 @@ async function saveComment(id) {
     var referenceID = id;
     var messageField = "form_new_comment_" + id;
     var message = document.getElementById(messageField).value;
+    var like = 0;
 
     await fetch('/api/comments', {
         method: "post",
@@ -306,7 +360,8 @@ async function saveComment(id) {
             username,
             message,
             dateTime,
-            referenceID
+            referenceID,
+            like
         }),
     });
     getData();

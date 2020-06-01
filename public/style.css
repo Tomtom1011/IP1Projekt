@@ -11,6 +11,9 @@
     border-width: 1px;
     border-color: black;
 }
+.profile-entry.comment{
+    background-color: grey;
+}
 
 .table-data-right {
     width:100%;
@@ -32,6 +35,28 @@
     display: inline-block;
   }
 .textBtn:hover {
+    background: rgb(14, 33, 212);
+    color: white;
+
+}
+
+.likeBtnP{
+    background-color: lightseagreen;
+    border-color:  lightseagreen;
+}
+
+.likeBtnP:hover{
+    background: rgb(14, 33, 212);
+    color: white;
+
+}
+
+.likeBtnC{
+    background-color: grey;
+    border-color:  grey;
+}
+
+.likeBtnP:hover{
     background: rgb(14, 33, 212);
     color: white;
 
