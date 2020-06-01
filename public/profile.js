@@ -26,7 +26,6 @@ $(document).ready((() => {
 }));
 
 function myProfile() {
-    console.log("func myProfile now profile page" + getCookie("profile"))
     setCookie("profile", getCookie("loggedInUsername"));
     getData();
 }
@@ -194,7 +193,6 @@ function isOwnProfile() {
 
 async function delPost(id) {
     var delId = id;
-    console.log(id);
 
     await fetch('/api/delete', {
         method: "delete",
@@ -205,12 +203,10 @@ async function delPost(id) {
             delId
         }),
     }).then(getData());
-
 }
 
 async function delComment(id) {
     var delId = id;
-    console.log(id);
 
     await fetch('/api/deleteComments', {
         method: "delete",
@@ -221,19 +217,16 @@ async function delComment(id) {
             delId
         }),
     }).then(getData());
-
 }
 
 
 async function savePost(message) {
-
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
     var username = getCookie("loggedInUsername");
-    console.log(getCookie("loggedInUsername"));
     try {
         await fetch('/api/posts', {
             method: "post",
@@ -252,7 +245,6 @@ async function savePost(message) {
 }
 
 async function saveComment(id) {
-
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();

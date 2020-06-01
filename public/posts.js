@@ -27,7 +27,6 @@ $(document).ready((() => {
 }));
 
 function myProfile() {
-    console.log("func myProfile now profile page" + getCookie("profile"))
     setCookie("profile", getCookie("loggedInUsername"));
     window.location.replace("/profile");
 }
@@ -280,7 +279,7 @@ async function delComment(id) {
     }).then(getData());
 }
 
-async function likeComment(name){
+async function likeComment(name) {
     var splited = name.split(' ');
     var id = splited[0];
     var like = parseInt(splited[1]) + 1;
@@ -297,7 +296,7 @@ async function likeComment(name){
     }).then(getData());
 }
 
-async function likePost(name){
+async function likePost(name) {
     var splited = name.split(' ');
     var id = splited[0];
     var like = parseInt(splited[1]) + 1;
@@ -311,7 +310,7 @@ async function likePost(name){
             id,
             like
         }),
-    }).then(getData());   
+    }).then(getData());
 }
 
 

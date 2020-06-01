@@ -24,10 +24,6 @@ app.get('/posts', (req, res) => {
     res.render('pages/posts');
 });
 
-app.get('/test', (req, res) => {
-    res.render('pages/test');
-});
-
 app.get('/api/posts', (req, res) => {
     db.all('SELECT * FROM Posts', (err, post) => {
         res.json(post);
@@ -67,10 +63,7 @@ app.post('/api/user', (req, res) => {
 })
 
 app.post('/api/posts', (req, res) => {
-    console.log("Start");
-    console.log(req.body.username  + " " +  req.body.message + " " + req.body.likes + " " +  req.body.dateTime);
-    if (req.body.username && req.body.message && req.body.likes!= null && req.body.dateTime) {
-        console.log("Danach");
+    if (req.body.username && req.body.message && req.body.likes != null && req.body.dateTime) {
         db.run('INSERT INTO Posts(Username, Message, Likes, Timestamp) VALUES(?, ?, ?, ?)', [req.body.username, req.body.message, req.body.likes, req.body.dateTime], function (err) {
             if (err) {
                 console.log("DB Insert Posts Error values (" +
@@ -112,8 +105,8 @@ app.post('/api/comments', (req, res) => {
     }
 });
 
-app.post('/api/likesPosts', (req, res)=>{
-    db.run('UPDATE Posts SET Likes=\'' + req.body.like + '\'  WHERE ID=\'' + req.body.id + '\'' , function (err) {
+app.post('/api/likesPosts', (req, res) => {
+    db.run('UPDATE Posts SET Likes=\'' + req.body.like + '\'  WHERE ID=\'' + req.body.id + '\'', function (err) {
         if (err) {
             console.log("Couldn't like Post");
             res.json({ error: err });
@@ -127,8 +120,8 @@ app.post('/api/likesPosts', (req, res)=>{
     });
 });
 
-app.post('/api/likesComments', (req, res)=>{
-    db.run('UPDATE Comments SET Likes=\'' + req.body.like + '\'  WHERE ID=\'' + req.body.id + '\'' , function (err) {
+app.post('/api/likesComments', (req, res) => {
+    db.run('UPDATE Comments SET Likes=\'' + req.body.like + '\'  WHERE ID=\'' + req.body.id + '\'', function (err) {
         if (err) {
             console.log("Couldn't like Post");
             res.json({ error: err });
